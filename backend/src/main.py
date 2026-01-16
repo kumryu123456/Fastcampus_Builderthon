@@ -239,9 +239,14 @@ async def root():
     }
 
 
-# Router imports (will be added in Phase 3+)
-# from src.routers import resume, cover_letter, jobs, interview
-# app.include_router(resume.router, prefix="/api/v1/resume", tags=["Resume"])
+# Router imports (Phase 3+)
+from src.routers import resume
+
+# Register routers
+app.include_router(resume.router, prefix="/api/v1")
+
+# Future routers (will be added later):
+# from src.routers import cover_letter, jobs, interview
 # app.include_router(cover_letter.router, prefix="/api/v1/cover-letter", tags=["Cover Letter"])
 # app.include_router(jobs.router, prefix="/api/v1/jobs", tags=["Jobs"])
 # app.include_router(interview.router, prefix="/api/v1/interview", tags=["Interview"])

@@ -113,6 +113,9 @@ def init_db() -> None:
     Creates all tables defined in models that inherit from Base.
     Should be called on application startup.
     """
+    # Import models to register them with Base.metadata
+    from src.models import user, resume  # noqa: F401
+
     logger.info("database_initialization_started", operation="init_db")
     try:
         Base.metadata.create_all(bind=engine)
