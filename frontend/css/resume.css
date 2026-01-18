@@ -1,0 +1,410 @@
+/**
+ * Resume Analysis Styles - PathPilot
+ *
+ * Constitution Compliance:
+ * - T033: Modern, accessible UI design
+ * - User-friendly drag-and-drop interface
+ */
+
+/* Upload Section */
+.upload-section {
+    margin: 3rem 0;
+}
+
+.upload-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* Dropzone */
+.dropzone {
+    border: 3px dashed #cbd5e0;
+    border-radius: 12px;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: #f7fafc;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dropzone:hover {
+    border-color: #4299e1;
+    background: #ebf8ff;
+}
+
+.dropzone.drag-over {
+    border-color: #3182ce;
+    background: #bee3f8;
+    transform: scale(1.02);
+}
+
+.dropzone-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.upload-icon {
+    width: 64px;
+    height: 64px;
+    color: #4299e1;
+    margin-bottom: 0.5rem;
+}
+
+.dropzone h3 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin: 0;
+}
+
+.dropzone p {
+    color: #718096;
+    margin: 0.5rem 0;
+}
+
+.file-hint {
+    font-size: 0.875rem;
+    color: #a0aec0;
+    margin-top: 1rem;
+}
+
+/* File Preview */
+.file-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    background: white;
+    margin-bottom: 1.5rem;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.file-icon {
+    width: 40px;
+    height: 40px;
+    color: #4299e1;
+}
+
+.file-name {
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+}
+
+.file-size {
+    font-size: 0.875rem;
+    color: #718096;
+    margin: 0.25rem 0 0 0;
+}
+
+.btn-icon {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.btn-icon:hover {
+    background: #f7fafc;
+}
+
+.btn-icon svg {
+    width: 24px;
+    height: 24px;
+    color: #718096;
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #e2e8f0;
+    border-top-color: #4299e1;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading p {
+    color: #4a5568;
+    margin: 0.5rem 0;
+}
+
+.loading-hint {
+    font-size: 0.875rem;
+    color: #718096;
+}
+
+/* Error Message */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: #fff5f5;
+    border: 2px solid #fc8181;
+    border-radius: 8px;
+    margin-top: 1.5rem;
+}
+
+.error-icon {
+    width: 24px;
+    height: 24px;
+    color: #e53e3e;
+    flex-shrink: 0;
+}
+
+.error-message p {
+    color: #c53030;
+    margin: 0;
+}
+
+/* Results Section */
+.results-section {
+    margin: 3rem 0;
+}
+
+.results-section > h2 {
+    font-size: 2rem;
+    color: #2d3748;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.result-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.result-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.result-card h3 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin: 0 0 1.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-icon {
+    width: 28px;
+    height: 28px;
+}
+
+/* Experience Summary */
+.experience-summary {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.experience-summary h3 {
+    color: white;
+    justify-content: center;
+}
+
+.experience-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.experience-number {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.experience-label {
+    font-size: 1.125rem;
+    opacity: 0.9;
+}
+
+/* Skills */
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.skill-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #edf2f7;
+    color: #2d3748;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.skill-badge:hover {
+    background: #4299e1;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Card Color Themes */
+.strengths {
+    border-left: 4px solid #48bb78;
+}
+
+.strengths .card-icon {
+    color: #48bb78;
+}
+
+.weaknesses {
+    border-left: 4px solid #ed8936;
+}
+
+.weaknesses .card-icon {
+    color: #ed8936;
+}
+
+.recommendations {
+    border-left: 4px solid #4299e1;
+}
+
+.recommendations .card-icon {
+    color: #4299e1;
+}
+
+.suitable-roles {
+    border-left: 4px solid #9f7aea;
+}
+
+.suitable-roles .card-icon {
+    color: #9f7aea;
+}
+
+/* Lists */
+.result-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.result-card li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+.result-card li:last-child {
+    border-bottom: none;
+}
+
+.no-data {
+    color: #a0aec0;
+    font-style: italic;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background: #fbd38d;
+    color: #744210;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .dropzone {
+        padding: 2rem 1rem;
+    }
+
+    .upload-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .dropzone h3 {
+        font-size: 1.25rem;
+    }
+
+    .result-card {
+        padding: 1.5rem;
+    }
+
+    .result-card h3 {
+        font-size: 1.25rem;
+    }
+
+    .experience-number {
+        font-size: 3rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.result-card:nth-child(1) { animation-delay: 0.1s; }
+.result-card:nth-child(2) { animation-delay: 0.2s; }
+.result-card:nth-child(3) { animation-delay: 0.3s; }
+.result-card:nth-child(4) { animation-delay: 0.4s; }
+.result-card:nth-child(5) { animation-delay: 0.5s; }
+.result-card:nth-child(6) { animation-delay: 0.6s; }

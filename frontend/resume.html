@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis - PathPilot</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/resume.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>PathPilot</h1>
+                <span class="nav-subtitle">AI-Powered Job Application Assistant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resume.html" class="active">Resume Analysis</a></li>
+                <li><a href="cover-letter.html">Cover Letters</a></li>
+                <li><a href="jobs.html">Job Discovery</a></li>
+                <li><a href="interview.html">Mock Interview</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Resume Analysis</h1>
+            <p>Upload your resume and get AI-powered insights to improve your job applications.</p>
+        </section>
+
+        <!-- Upload Section -->
+        <section class="upload-section">
+            <div class="upload-container">
+                <div id="dropzone" class="dropzone">
+                    <div class="dropzone-content">
+                        <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <h3>Drag and drop your resume here</h3>
+                        <p>or</p>
+                        <button id="browse-btn" class="btn btn-secondary">Browse Files</button>
+                        <input type="file" id="file-input" accept=".pdf,.docx" hidden>
+                        <p class="file-hint">Supported formats: PDF, DOCX (max 5MB)</p>
+                    </div>
+                </div>
+
+                <!-- File Preview -->
+                <div id="file-preview" class="file-preview" style="display: none;">
+                    <div class="file-info">
+                        <svg class="file-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <div>
+                            <p id="file-name" class="file-name"></p>
+                            <p id="file-size" class="file-size"></p>
+                        </div>
+                    </div>
+                    <button id="remove-file" class="btn-icon" title="Remove file">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Upload Button -->
+                <button id="upload-btn" class="btn btn-primary" style="display: none;">
+                    Analyze Resume
+                </button>
+
+                <!-- Loading State -->
+                <div id="loading" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Analyzing your resume with AI...</p>
+                    <p class="loading-hint">This may take up to 60 seconds</p>
+                </div>
+
+                <!-- Error Message -->
+                <div id="error-message" class="error-message" style="display: none;">
+                    <svg class="error-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p id="error-text"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="results-section" style="display: none;">
+            <h2>Analysis Results</h2>
+
+            <!-- Experience Summary -->
+            <div class="result-card experience-summary">
+                <h3>Experience Summary</h3>
+                <div class="experience-badge">
+                    <span id="experience-years" class="experience-number">0</span>
+                    <span class="experience-label">Years of Experience</span>
+                </div>
+            </div>
+
+            <!-- Skills -->
+            <div class="result-card">
+                <h3>Skills Identified</h3>
+                <div id="skills-container" class="skills-container"></div>
+            </div>
+
+            <!-- Strengths -->
+            <div class="result-card strengths">
+                <h3>
+                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Strengths
+                </h3>
+                <ul id="strengths-list"></ul>
+            </div>
+
+            <!-- Weaknesses -->
+            <div class="result-card weaknesses">
+                <h3>
+                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    Areas for Improvement
+                </h3>
+                <ul id="weaknesses-list"></ul>
+            </div>
+
+            <!-- Recommendations -->
+            <div class="result-card recommendations">
+                <h3>
+                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    Recommendations
+                </h3>
+                <ul id="recommendations-list"></ul>
+            </div>
+
+            <!-- Suitable Roles -->
+            <div class="result-card suitable-roles">
+                <h3>
+                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Suitable Roles
+                </h3>
+                <ul id="suitable-roles-list"></ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="analyze-another" class="btn btn-secondary">Analyze Another Resume</button>
+                <button id="generate-cover-letter" class="btn btn-primary" disabled>
+                    Generate Cover Letter
+                    <span class="badge">Coming Soon</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PathPilot. Built with Claude Code for Builderthon.</p>
+            <p class="constitution-badge">Constitution Compliant v1.0.0</p>
+        </div>
+    </footer>
+
+    <script src="js/resume.js"></script>
+</body>
+</html>

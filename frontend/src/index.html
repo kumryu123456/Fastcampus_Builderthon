@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathPilot - AI-Powered Job Application Assistant</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 PathPilot</h1>
+            <p class="tagline">Your AI-powered job application companion</p>
+        </header>
+
+        <nav class="nav-tabs">
+            <a href="index.html" class="nav-tab active">Dashboard</a>
+            <a href="resume.html" class="nav-tab">Resume Analysis</a>
+            <a href="cover-letter.html" class="nav-tab">Cover Letters</a>
+            <a href="jobs.html" class="nav-tab">Job Discovery</a>
+            <a href="interview.html" class="nav-tab">Mock Interview</a>
+        </nav>
+
+        <main>
+            <section class="welcome-section">
+                <h2>Welcome to PathPilot</h2>
+                <p>Automate your job search with AI-powered tools</p>
+            </section>
+
+            <section class="quick-actions">
+                <h3>Quick Actions</h3>
+                <div class="action-cards">
+                    <div class="card" onclick="location.href='resume.html'">
+                        <h4>📄 Upload Resume</h4>
+                        <p>Get AI-powered analysis of your strengths and weaknesses</p>
+                    </div>
+                    <div class="card" onclick="location.href='cover-letter.html'">
+                        <h4>✍️ Generate Cover Letter</h4>
+                        <p>Create personalized cover letters in seconds</p>
+                    </div>
+                    <div class="card" onclick="location.href='jobs.html'">
+                        <h4>🔍 Discover Jobs</h4>
+                        <p>Let AI find matching opportunities for you</p>
+                    </div>
+                    <div class="card" onclick="location.href='interview.html'">
+                        <h4>🎤 Practice Interview</h4>
+                        <p>Train with AI-powered mock interviews</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <h3>Your Progress</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="resume-count">0</div>
+                        <div class="stat-label">Resumes Analyzed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="letter-count">0</div>
+                        <div class="stat-label">Cover Letters</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="job-count">0</div>
+                        <div class="stat-label">Jobs Discovered</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="interview-count">0</div>
+                        <div class="stat-label">Mock Interviews</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recent-activity">
+                <h3>Recent Activity</h3>
+                <div id="activity-list" class="activity-list">
+                    <p class="empty-state">No recent activity. Start by uploading your resume!</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>PathPilot &copy; 2025 | Built for Builderthon Hackathon</p>
+        </footer>
+    </div>
+
+    <script src="js/api-client.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

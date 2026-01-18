@@ -7,7 +7,7 @@ Constitution Compliance:
 """
 
 from typing import Generator
-from sqlalchemy import create_engine, event, MetaData
+from sqlalchemy import create_engine, event, MetaData, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from sqlalchemy.pool import QueuePool
@@ -108,18 +108,40 @@ def get_db() -> Generator[Session, None, None]:
 
 def init_db() -> None:
     """
-    Initialize database tables.
+    Initialize database tables and create default test user.
 
     Creates all tables defined in models that inherit from Base.
     Should be called on application startup.
     """
     # Import models to register them with Base.metadata
-    from src.models import user, resume  # noqa: F401
+    from src.models import user, resume, cover_letter, job, interview  # noqa: F401
+    from src.models.user import User
 
     logger.info("database_initialization_started", operation="init_db")
     try:
         Base.metadata.create_all(bind=engine)
         logger.info("database_initialization_completed", operation="init_db", success=True)
+
+        # Create default test user for MVP (Constitution IV: Hackathon MVP First)
+        db = SessionLocal()
+        try:
+            existing_user = db.query(User).filter(User.id == 1).first()
+            if not existing_user:
+                default_user = User(
+                    email="test@pathpilot.com",
+                )
+                db.add(default_user)
+                db.commit()
+                db.refresh(default_user)
+                logger.info("default_user_created", operation="init_db", user_id=default_user.id)
+            else:
+                logger.info("default_user_exists", operation="init_db", user_id=existing_user.id)
+        except Exception as e:
+            logger.warning("default_user_creation_failed", operation="init_db", error=str(e))
+            db.rollback()
+        finally:
+            db.close()
+
     except Exception as e:
         logger.error(
             "database_initialization_failed",
@@ -141,7 +163,7 @@ def check_db_connection() -> bool:
     """
     try:
         with engine.connect() as conn:
-            conn.execute("SELECT 1")
+            conn.execute(text("SELECT 1"))
         logger.debug("database_health_check_passed", operation="health_check")
         return True
     except Exception as e:

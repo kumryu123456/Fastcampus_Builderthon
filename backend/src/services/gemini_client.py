@@ -43,7 +43,7 @@ class GeminiClient:
                 "temperature": 0.7,  # Balanced creativity
                 "top_p": 0.95,
                 "top_k": 40,
-                "max_output_tokens": 2048,
+                "max_output_tokens": 8192,  # Increased for longer analysis
             },
             safety_settings={
                 HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
@@ -58,6 +58,49 @@ class GeminiClient:
             operation="init",
             model=self.model_name,
         )
+
+    async def generate_content(self, prompt: str) -> str:
+        """
+        Generic content generation method for prompts.
+
+        Args:
+            prompt: Text prompt for Gemini
+
+        Returns:
+            Generated text response
+        """
+        start_time = time.time()
+
+        logger.info(
+            "gemini_generate_started",
+            operation="generate_content",
+            prompt_length=len(prompt),
+        )
+
+        try:
+            response = self.model.generate_content(prompt)
+            result = response.text
+
+            duration_ms = int((time.time() - start_time) * 1000)
+            logger.info(
+                "gemini_generate_completed",
+                operation="generate_content",
+                duration_ms=duration_ms,
+                response_length=len(result),
+            )
+
+            return result
+
+        except Exception as e:
+            duration_ms = int((time.time() - start_time) * 1000)
+            logger.error(
+                "gemini_generate_failed",
+                operation="generate_content",
+                duration_ms=duration_ms,
+                error=str(e),
+                exc_info=True,
+            )
+            raise
 
     @retry_gemini_api(max_attempts=3, timeout=30.0)
     def analyze_resume_text(self, resume_text: str, user_id: Optional[int] = None) -> Dict[str, Any]:

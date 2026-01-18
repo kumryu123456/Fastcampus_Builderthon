@@ -7,5 +7,8 @@ Constitution Compliance:
 
 from src.models.user import User
 from src.models.resume import Resume
+from src.models.cover_letter import CoverLetter
+from src.models.job import Job
+from src.models.interview import Interview
 
-__all__ = ["User", "Resume"]
+__all__ = ["User", "Resume", "CoverLetter", "Job", "Interview"]

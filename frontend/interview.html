@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Interview - PathPilot</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/interview.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>PathPilot</h1>
+                <span class="nav-subtitle">AI-Powered Job Application Assistant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resume.html">Resume Analysis</a></li>
+                <li><a href="cover-letter.html">Cover Letters</a></li>
+                <li><a href="jobs.html">Job Discovery</a></li>
+                <li><a href="interview.html" class="active">Mock Interview</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <section class="page-header">
+            <h1>Mock Interview</h1>
+            <p>Practice interview questions with AI-powered feedback and scoring.</p>
+        </section>
+
+        <!-- Setup Section -->
+        <section class="interview-setup" id="setup-section">
+            <div class="form-card">
+                <h2>Interview Setup</h2>
+
+                <div class="form-group">
+                    <label for="job-title">Job Title *</label>
+                    <input type="text" id="job-title" placeholder="e.g., Software Engineer" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="company-name">Company Name (Optional)</label>
+                    <input type="text" id="company-name" placeholder="e.g., Google">
+                </div>
+
+                <div class="form-group">
+                    <label for="job-description">Job Description (Optional)</label>
+                    <textarea id="job-description" rows="4" placeholder="Paste the job description for more relevant questions..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="interview-type">Interview Type</label>
+                        <select id="interview-type">
+                            <option value="mixed" selected>Mixed (Behavioral + Technical)</option>
+                            <option value="behavioral">Behavioral Only</option>
+                            <option value="technical">Technical Only</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="difficulty">Difficulty Level</label>
+                        <select id="difficulty">
+                            <option value="entry">Entry Level (0-2 years)</option>
+                            <option value="mid" selected>Mid Level (3-5 years)</option>
+                            <option value="senior">Senior Level (6+ years)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question-count">Number of Questions</label>
+                        <select id="question-count">
+                            <option value="3">3 Questions</option>
+                            <option value="5" selected>5 Questions</option>
+                            <option value="7">7 Questions</option>
+                            <option value="10">10 Questions</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="language">Response Language</label>
+                    <select id="language">
+                        <option value="ko" selected>Korean</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+
+                <button class="btn btn-primary btn-large" id="start-btn" onclick="startInterview()">
+                    Start Mock Interview
+                </button>
+            </div>
+        </section>
+
+        <!-- Loading Section -->
+        <section class="loading-section hidden" id="loading-section">
+            <div class="loading-card">
+                <div class="spinner"></div>
+                <h2>Generating Interview Questions...</h2>
+                <p>AI is creating personalized questions based on your job requirements.</p>
+            </div>
+        </section>
+
+        <!-- Interview Section -->
+        <section class="interview-section hidden" id="interview-section">
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="progress-text" id="progress-text">Question 1 of 5</span>
+            </div>
+
+            <!-- Question Card -->
+            <div class="question-card">
+                <div class="question-header">
+                    <span class="question-type" id="question-type">Behavioral</span>
+                    <span class="question-difficulty" id="question-difficulty">Difficulty: 3/5</span>
+                </div>
+                <div class="question-content">
+                    <h2 id="question-text">Loading question...</h2>
+                    <p class="question-tip" id="question-tip"></p>
+                </div>
+                <div class="expected-topics" id="expected-topics">
+                    <span class="topic-label">Expected Topics:</span>
+                    <div class="topic-tags" id="topic-tags"></div>
+                </div>
+            </div>
+
+            <!-- Timer -->
+            <div class="timer-container">
+                <div class="timer" id="timer">
+                    <span class="timer-icon">&#9201;</span>
+                    <span class="timer-text" id="timer-text">2:00</span>
+                </div>
+            </div>
+
+            <!-- Answer Input -->
+            <div class="answer-section">
+                <div class="form-group">
+                    <label for="answer-text">Your Answer</label>
+                    <textarea id="answer-text" rows="8" placeholder="Type your answer here... Use the STAR method (Situation, Task, Action, Result) for behavioral questions."></textarea>
+                    <div class="char-count">
+                        <span id="char-count">0</span> / 5000 characters
+                    </div>
+                </div>
+
+                <div class="answer-actions">
+                    <button class="btn btn-secondary" onclick="skipQuestion()">Skip Question</button>
+                    <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()">
+                        Submit Answer
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Evaluation Section -->
+        <section class="evaluation-section hidden" id="evaluation-section">
+            <div class="evaluation-card">
+                <div class="evaluation-header">
+                    <h2>Answer Evaluation</h2>
+                    <div class="score-badge" id="score-badge">
+                        <span class="score-value" id="score-value">85</span>
+                        <span class="score-label">/ 100</span>
+                    </div>
+                </div>
+
+                <div class="evaluation-body">
+                    <div class="feedback-section">
+                        <h3>Feedback</h3>
+                        <p id="feedback-text">Loading feedback...</p>
+                    </div>
+
+                    <div class="evaluation-details">
+                        <div class="strengths-section">
+                            <h4>Strengths</h4>
+                            <ul id="strengths-list"></ul>
+                        </div>
+
+                        <div class="improvements-section">
+                            <h4>Areas for Improvement</h4>
+                            <ul id="improvements-list"></ul>
+                        </div>
+                    </div>
+
+                    <div class="model-answer-section">
+                        <h4>Model Answer</h4>
+                        <div class="model-answer" id="model-answer">
+                            <p>Loading model answer...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="evaluation-actions">
+                    <button class="btn btn-secondary" onclick="retryQuestion()">Retry This Question</button>
+                    <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">
+                        Next Question
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section hidden" id="results-section">
+            <div class="results-card">
+                <div class="results-header">
+                    <h2>Interview Complete!</h2>
+                    <div class="final-score" id="final-score">
+                        <span class="final-score-value">0</span>
+                        <span class="final-score-label">Overall Score</span>
+                    </div>
+                </div>
+
+                <div class="results-summary">
+                    <div class="summary-stat">
+                        <span class="stat-value" id="questions-answered">0</span>
+                        <span class="stat-label">Questions Answered</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span class="stat-value" id="avg-score">0</span>
+                        <span class="stat-label">Average Score</span>
+                    </div>
+                    <div class="summary-stat">
+                        <span class="stat-value" id="best-score">0</span>
+                        <span class="stat-label">Best Score</span>
+                    </div>
+                </div>
+
+                <div class="results-breakdown">
+                    <h3>Question Breakdown</h3>
+                    <div class="question-scores" id="question-scores"></div>
+                </div>
+
+                <div class="results-actions">
+                    <button class="btn btn-secondary" onclick="reviewAnswers()">Review Answers</button>
+                    <button class="btn btn-primary" onclick="newInterview()">Start New Interview</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interview History -->
+        <section class="history-section" id="history-section">
+            <h2>Interview History</h2>
+            <div class="history-list" id="history-list">
+                <p class="no-history">No interview history yet. Start your first mock interview above!</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PathPilot - AI-Powered Job Application Assistant</p>
+        </div>
+    </footer>
+
+    <script src="js/interview.js"></script>
+</body>
+</html>

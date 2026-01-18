@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathPilot - AI-Powered Job Application Assistant</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>PathPilot</h1>
+                <span class="nav-subtitle">AI-Powered Job Application Assistant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="resume.html">Resume Analysis</a></li>
+                <li><a href="cover-letter.html">Cover Letters</a></li>
+                <li><a href="jobs.html">Job Discovery</a></li>
+                <li><a href="interview.html">Mock Interview</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Welcome to PathPilot</h1>
+                <p>Automate your job search with AI-powered tools. Analyze resumes, generate cover letters, discover jobs, and practice interviews.</p>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-cards">
+                <div class="action-card" onclick="location.href='resume.html'">
+                    <div class="card-icon">&#128196;</div>
+                    <h3>Upload Resume</h3>
+                    <p>Get AI-powered analysis of your strengths and areas for improvement</p>
+                </div>
+                <div class="action-card" onclick="location.href='cover-letter.html'">
+                    <div class="card-icon">&#9997;</div>
+                    <h3>Generate Cover Letter</h3>
+                    <p>Create personalized cover letters tailored to each job application</p>
+                </div>
+                <div class="action-card" onclick="location.href='jobs.html'">
+                    <div class="card-icon">&#128269;</div>
+                    <h3>Discover Jobs</h3>
+                    <p>Let AI find matching job opportunities based on your profile</p>
+                </div>
+                <div class="action-card" onclick="location.href='interview.html'">
+                    <div class="card-icon">&#127908;</div>
+                    <h3>Practice Interview</h3>
+                    <p>Train with AI-powered mock interviews and get instant feedback</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats-section">
+            <h2>Your Progress</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="resume-count">-</div>
+                    <div class="stat-label">Resumes Analyzed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="letter-count">-</div>
+                    <div class="stat-label">Cover Letters</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="job-count">-</div>
+                    <div class="stat-label">Jobs Saved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="interview-count">-</div>
+                    <div class="stat-label">Mock Interviews</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2>Why PathPilot?</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>AI-Powered Analysis</h4>
+                    <p>Leverages Google Gemini for intelligent resume analysis and content generation</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Personalized Content</h4>
+                    <p>Every cover letter and interview question is tailored to your specific job target</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Real-time Feedback</h4>
+                    <p>Get instant scoring and actionable improvement suggestions</p>
+                </div>
+                <div class="feature-item">
+                    <h4>Privacy First</h4>
+                    <p>Your data stays secure with PII protection and minimal data retention</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PathPilot - Built for Builderthon Hackathon</p>
+        </div>
+    </footer>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

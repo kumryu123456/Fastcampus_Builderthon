@@ -35,8 +35,8 @@ class Settings(BaseSettings):
     # AI Models - Gemini
     google_api_key: str = Field(..., description="Google Gemini API key")
     preferred_ai_model: str = Field(
-        default="gemini-1.5-pro",
-        description="Gemini model: gemini-1.5-pro, gemini-1.5-flash, gemini-1.0-pro",
+        default="models/gemini-2.5-flash",
+        description="Gemini model: models/gemini-2.5-flash, models/gemini-2.5-pro, models/gemini-flash-latest",
     )
 
     # ElevenLabs Voice
@@ -84,7 +84,13 @@ class Settings(BaseSettings):
     @validator("preferred_ai_model")
     def validate_ai_model(cls, v):
         """Validate AI model selection."""
-        valid_models = ["gemini-1.5-pro", "gemini-1.5-flash", "gemini-1.0-pro"]
+        valid_models = [
+            "models/gemini-2.5-flash",
+            "models/gemini-2.5-pro",
+            "models/gemini-2.0-flash",
+            "models/gemini-flash-latest",
+            "models/gemini-pro-latest",
+        ]
         if v not in valid_models:
             raise ValueError(f"preferred_ai_model must be one of {valid_models}")
         return v

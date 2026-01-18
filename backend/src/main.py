@@ -86,10 +86,12 @@ app = FastAPI(
 
 
 # CORS Middleware (Constitution III: Configured from environment)
+# Development: allow all origins for easier testing
+cors_origins = ["*"] if settings.is_development else settings.cors_origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=False,  # Must be False when using "*"
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -240,10 +242,13 @@ async def root():
 
 
 # Router imports (Phase 3+)
-from src.routers import resume
+from src.routers import resume, cover_letter, jobs, interview
 
 # Register routers
 app.include_router(resume.router, prefix="/api/v1")
+app.include_router(cover_letter.router, prefix="/api/v1")
+app.include_router(jobs.router, prefix="/api/v1")
+app.include_router(interview.router, prefix="/api/v1")
 
 # Future routers (will be added later):
 # from src.routers import cover_letter, jobs, interview

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Discovery - PathPilot</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/jobs.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>PathPilot</h1>
+                <span class="nav-subtitle">AI-Powered Job Application Assistant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resume.html">Resume Analysis</a></li>
+                <li><a href="cover-letter.html">Cover Letters</a></li>
+                <li><a href="jobs.html" class="active">Job Discovery</a></li>
+                <li><a href="interview.html">Mock Interview</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <section class="page-header">
+            <h1>Job Discovery</h1>
+            <p>Get AI-powered job recommendations based on your resume analysis.</p>
+        </section>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="recommendations">AI Recommendations</button>
+            <button class="tab-btn" data-tab="match">Job Match Analysis</button>
+            <button class="tab-btn" data-tab="saved">Saved Jobs</button>
+        </div>
+
+        <!-- Recommendations Tab -->
+        <section class="tab-content active" id="recommendations-tab">
+            <div class="form-card">
+                <h2>Get Personalized Job Recommendations</h2>
+                <p>Select your analyzed resume to get AI-powered job recommendations tailored to your skills and experience.</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rec-resume-select">Select Resume *</label>
+                        <select id="rec-resume-select" required>
+                            <option value="">-- Select an analyzed resume --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rec-location">Preferred Location</label>
+                        <input type="text" id="rec-location" placeholder="e.g., Seoul, Remote">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="rec-job-type">Job Type</label>
+                        <select id="rec-job-type">
+                            <option value="">Any</option>
+                            <option value="full-time">Full-time</option>
+                            <option value="part-time">Part-time</option>
+                            <option value="contract">Contract</option>
+                            <option value="internship">Internship</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rec-experience">Experience Level</label>
+                        <select id="rec-experience">
+                            <option value="">Any</option>
+                            <option value="entry">Entry Level</option>
+                            <option value="mid">Mid Level</option>
+                            <option value="senior">Senior Level</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rec-industry">Industry</label>
+                        <input type="text" id="rec-industry" placeholder="e.g., Technology, Finance">
+                    </div>
+                </div>
+
+                <button type="button" id="get-recommendations-btn" class="btn btn-primary btn-large">
+                    Get AI Recommendations
+                </button>
+
+                <!-- Error Message -->
+                <div class="error-message" id="rec-error" style="display: none;">
+                    <span class="error-icon">!</span>
+                    <span id="rec-error-text"></span>
+                </div>
+
+                <!-- Loading -->
+                <div class="loading" id="rec-loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Generating personalized recommendations...</p>
+                    <small>This may take up to 30 seconds</small>
+                </div>
+            </div>
+
+            <!-- Recommendations Results -->
+            <div id="recommendations-results" style="display: none;">
+                <h3 class="results-title">Recommended Jobs for You</h3>
+                <div id="recommendations-list" class="jobs-grid"></div>
+            </div>
+        </section>
+
+        <!-- Match Analysis Tab -->
+        <section class="tab-content" id="match-tab">
+            <div class="form-card">
+                <h2>Analyze Job Match</h2>
+                <p>Paste a job description to see how well it matches your resume.</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="match-resume-select">Select Resume *</label>
+                        <select id="match-resume-select" required>
+                            <option value="">-- Select an analyzed resume --</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="match-job-title">Job Title *</label>
+                        <input type="text" id="match-job-title" placeholder="e.g., Senior Software Engineer" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="match-company">Company Name</label>
+                    <input type="text" id="match-company" placeholder="e.g., Google">
+                </div>
+
+                <div class="form-group">
+                    <label for="match-description">Job Description *</label>
+                    <textarea id="match-description" rows="8" placeholder="Paste the full job description here..." required></textarea>
+                </div>
+
+                <button type="button" id="analyze-match-btn" class="btn btn-primary btn-large">
+                    Analyze Match
+                </button>
+
+                <!-- Error Message -->
+                <div class="error-message" id="match-error" style="display: none;">
+                    <span class="error-icon">!</span>
+                    <span id="match-error-text"></span>
+                </div>
+
+                <!-- Loading -->
+                <div class="loading" id="match-loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Analyzing job match...</p>
+                </div>
+            </div>
+
+            <!-- Match Results -->
+            <div id="match-results" class="match-results-card" style="display: none;">
+                <div class="match-header">
+                    <div class="match-score-circle">
+                        <span id="match-score-value">0</span>
+                        <small>Match Score</small>
+                    </div>
+                    <div class="match-info">
+                        <h3 id="match-job-title-display">Job Title</h3>
+                        <p id="match-level-display">Match Level</p>
+                    </div>
+                </div>
+
+                <div class="match-details">
+                    <div class="match-section">
+                        <h4>Matching Skills</h4>
+                        <div id="matching-skills" class="skills-list"></div>
+                    </div>
+
+                    <div class="match-section">
+                        <h4>Skills to Develop</h4>
+                        <div id="missing-skills" class="skills-list"></div>
+                    </div>
+
+                    <div class="match-section">
+                        <h4>Your Relevant Strengths</h4>
+                        <ul id="relevant-strengths"></ul>
+                    </div>
+
+                    <div class="match-section">
+                        <h4>Recommendation</h4>
+                        <p id="match-recommendation"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Saved Jobs Tab -->
+        <section class="tab-content" id="saved-tab">
+            <div class="saved-header">
+                <h2>Saved Jobs</h2>
+                <p>Jobs you've saved for later review.</p>
+            </div>
+
+            <div id="saved-jobs-list" class="jobs-list">
+                <p class="no-data">No saved jobs yet. Get recommendations or analyze job matches to save jobs.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PathPilot. Built with Claude Code for Builderthon.</p>
+            <p class="constitution-badge">Constitution Compliant v1.0.0</p>
+        </div>
+    </footer>
+
+    <script src="js/jobs.js"></script>
+</body>
+</html>

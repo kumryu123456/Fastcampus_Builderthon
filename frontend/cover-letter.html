@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cover Letter Generator - PathPilot</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/cover-letter.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <h1>PathPilot</h1>
+                <span class="nav-subtitle">AI-Powered Job Application Assistant</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="resume.html">Resume Analysis</a></li>
+                <li><a href="cover-letter.html" class="active">Cover Letters</a></li>
+                <li><a href="jobs.html">Job Discovery</a></li>
+                <li><a href="interview.html">Mock Interview</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <section class="page-header">
+            <h1>Cover Letter Generator</h1>
+            <p>Create personalized, AI-powered cover letters tailored to your target job.</p>
+        </section>
+
+        <!-- Generation Form -->
+        <section class="generation-section" id="generation-section">
+            <div class="form-card">
+                <h2>Job Details</h2>
+
+                <div class="form-group">
+                    <label for="job-title">Job Title *</label>
+                    <input type="text" id="job-title" placeholder="e.g., Senior Software Engineer" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="company-name">Company Name *</label>
+                    <input type="text" id="company-name" placeholder="e.g., Google" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="job-description">Job Description (Optional)</label>
+                    <textarea id="job-description" rows="6" placeholder="Paste the job posting here for better personalization..."></textarea>
+                </div>
+
+                <h2>Personalization Options</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="resume-select">Use Resume (Optional)</label>
+                        <select id="resume-select">
+                            <option value="">-- Select a resume --</option>
+                        </select>
+                        <small>Select an analyzed resume to personalize your cover letter</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tone-select">Tone</label>
+                        <select id="tone-select">
+                            <option value="professional" selected>Professional</option>
+                            <option value="enthusiastic">Enthusiastic</option>
+                            <option value="casual">Casual</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="length-select">Length</label>
+                        <select id="length-select">
+                            <option value="short">Short (250-350 words)</option>
+                            <option value="medium" selected>Medium (350-500 words)</option>
+                            <option value="long">Long (500-700 words)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="focus-areas">Focus Areas (Optional)</label>
+                    <input type="text" id="focus-areas" placeholder="e.g., leadership, technical skills, teamwork (comma-separated)">
+                </div>
+
+                <div class="form-group">
+                    <label for="custom-instructions">Additional Instructions (Optional)</label>
+                    <textarea id="custom-instructions" rows="3" placeholder="Any specific requirements or points you want to emphasize..."></textarea>
+                </div>
+
+                <button type="button" id="generate-btn" class="btn btn-primary btn-large">
+                    Generate Cover Letter
+                </button>
+
+                <!-- Error Message -->
+                <div class="error-message" id="error-message" style="display: none;">
+                    <span class="error-icon">!</span>
+                    <span id="error-text"></span>
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Generating your personalized cover letter...</p>
+                    <small>This may take up to 30 seconds</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section" id="results-section" style="display: none;">
+            <div class="results-header">
+                <div class="job-info">
+                    <h2 id="result-job-title">Software Engineer</h2>
+                    <p id="result-company-name">at Company Name</p>
+                </div>
+                <div class="result-meta">
+                    <span class="word-count"><span id="word-count">0</span> words</span>
+                    <span class="version">Version <span id="version">1</span></span>
+                </div>
+            </div>
+
+            <div class="cover-letter-content">
+                <div class="content-actions">
+                    <button type="button" id="copy-btn" class="btn btn-secondary">
+                        Copy to Clipboard
+                    </button>
+                    <button type="button" id="regenerate-btn" class="btn btn-secondary">
+                        Regenerate
+                    </button>
+                    <button type="button" id="edit-btn" class="btn btn-secondary">
+                        Edit
+                    </button>
+                </div>
+
+                <div id="content-display" class="content-display">
+                    <pre id="cover-letter-text"></pre>
+                </div>
+
+                <div id="content-edit" class="content-edit" style="display: none;">
+                    <textarea id="edit-textarea" rows="20"></textarea>
+                    <div class="edit-actions">
+                        <button type="button" id="save-edit-btn" class="btn btn-primary">Save Changes</button>
+                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-actions">
+                <button type="button" id="new-letter-btn" class="btn btn-primary">
+                    Create Another Cover Letter
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 PathPilot. Built with Claude Code for Builderthon.</p>
+            <p class="constitution-badge">Constitution Compliant v1.0.0</p>
+        </div>
+    </footer>
+
+    <script src="js/cover-letter.js"></script>
+</body>
+</html>

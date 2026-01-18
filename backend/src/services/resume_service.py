@@ -46,7 +46,10 @@ class ResumeService:
     ALLOWED_MIME_TYPES = {
         "application/pdf": ".pdf",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document": ".docx",
+        "application/msword": ".doc",  # Legacy .doc
+        "application/octet-stream": None,  # Sometimes returned for .docx
     }
+    ALLOWED_EXTENSIONS = {".pdf", ".docx", ".doc"}
 
     def __init__(self, db: Session):
         """
@@ -225,10 +228,16 @@ class ResumeService:
         Raises:
             ValueError: If file is invalid
         """
-        # Check file type
-        if file.content_type not in self.ALLOWED_MIME_TYPES:
+        # Get file extension
+        file_ext = Path(file.filename).suffix.lower() if file.filename else ""
+
+        # Check file type (MIME type OR extension)
+        is_valid_mime = file.content_type in self.ALLOWED_MIME_TYPES
+        is_valid_ext = file_ext in self.ALLOWED_EXTENSIONS
+
+        if not (is_valid_mime or is_valid_ext):
             raise ValueError(
-                f"Invalid file type: {file.content_type}. "
+                f"Invalid file type: {file.content_type} ({file_ext}). "
                 f"Allowed types: PDF, DOCX"
             )
 
@@ -239,6 +248,7 @@ class ResumeService:
             "file_validation_passed",
             operation="validate_file",
             content_type=file.content_type,
+            file_extension=file_ext,
         )
 
     def _save_file(self, original_filename: str, content: bytes) -> Path:
@@ -300,12 +310,15 @@ class ResumeService:
             ValueError: If extraction fails
         """
         try:
-            if mime_type == "application/pdf":
+            # Determine file type by extension if MIME type is ambiguous
+            file_ext = file_path.suffix.lower()
+
+            if mime_type == "application/pdf" or file_ext == ".pdf":
                 return self._extract_text_from_pdf(file_path)
-            elif mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+            elif mime_type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document" or file_ext in [".docx", ".doc"]:
                 return self._extract_text_from_docx(file_path)
             else:
-                raise ValueError(f"Unsupported file type: {mime_type}")
+                raise ValueError(f"Unsupported file type: {mime_type} ({file_ext})")
         except Exception as e:
             logger.error(
                 "text_extraction_failed",
