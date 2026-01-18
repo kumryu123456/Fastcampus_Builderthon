@@ -53,7 +53,7 @@ async function startInterview() {
 
     // Validation
     if (!jobTitle) {
-        alert('Please enter a job title.');
+        toast.warning('직무명을 입력해주세요.');
         return;
     }
 
