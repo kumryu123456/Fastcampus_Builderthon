@@ -196,6 +196,7 @@ class GeminiClient:
         Build prompt for resume analysis.
 
         T025: Prompt engineering for structured, actionable analysis.
+        ATS Score: Comprehensive ATS compatibility scoring
 
         Args:
             resume_text: Resume content
@@ -203,7 +204,7 @@ class GeminiClient:
         Returns:
             Formatted prompt for Gemini
         """
-        prompt = f"""You are an expert career coach and resume analyst. Analyze the following resume and provide a comprehensive, structured analysis.
+        prompt = f"""You are an expert career coach, resume analyst, and ATS (Applicant Tracking System) specialist. Analyze the following resume and provide a comprehensive, structured analysis including ATS compatibility scoring.
 
 Resume Content:
 {resume_text}
@@ -231,13 +232,36 @@ Please provide your analysis in the following JSON format (respond with ONLY val
     "Extract all technical and professional skills mentioned",
     "Include programming languages, tools, frameworks, soft skills"
   ],
-  "experience_years": <estimate total years of professional experience as integer>
+  "experience_years": <estimate total years of professional experience as integer>,
+  "ats_score": {{
+    "overall": <0-100 integer score>,
+    "format_score": <0-100 integer - document structure, readability, standard sections>,
+    "keyword_score": <0-100 integer - relevant industry keywords and skills>,
+    "content_score": <0-100 integer - quantified achievements, action verbs, clarity>,
+    "issues": [
+      "List specific ATS compatibility issues found",
+      "E.g., 'Missing contact information', 'No quantified achievements'"
+    ],
+    "missing_keywords": [
+      "List important keywords that should be added",
+      "Based on the candidate's apparent target industry/role"
+    ],
+    "format_suggestions": [
+      "Specific formatting improvements for better ATS parsing"
+    ]
+  }}
 }}
+
+ATS Scoring Criteria:
+- Format Score (0-100): Standard sections (Contact, Experience, Education, Skills), clean formatting, no tables/graphics, consistent date formats
+- Keyword Score (0-100): Industry-relevant keywords, technical skills, certifications, action verbs
+- Content Score (0-100): Quantified achievements (numbers, percentages), clear job titles, measurable results
 
 Important:
 - Be honest but constructive in your feedback
 - Focus on actionable insights
 - Consider industry standards and best practices
+- ATS scores should reflect real-world ATS compatibility
 - Return ONLY the JSON object, no additional text or markdown formatting
 """
         return prompt
@@ -283,6 +307,29 @@ Important:
             # Ensure experience_years is present
             if "experience_years" not in analysis:
                 analysis["experience_years"] = 0
+
+            # Ensure ats_score is present with default structure
+            if "ats_score" not in analysis:
+                analysis["ats_score"] = {
+                    "overall": 50,
+                    "format_score": 50,
+                    "keyword_score": 50,
+                    "content_score": 50,
+                    "issues": ["ATS analysis not available"],
+                    "missing_keywords": [],
+                    "format_suggestions": []
+                }
+            else:
+                # Validate ats_score sub-fields
+                ats = analysis["ats_score"]
+                if "overall" not in ats:
+                    ats["overall"] = int((ats.get("format_score", 50) + ats.get("keyword_score", 50) + ats.get("content_score", 50)) / 3)
+                if "issues" not in ats:
+                    ats["issues"] = []
+                if "missing_keywords" not in ats:
+                    ats["missing_keywords"] = []
+                if "format_suggestions" not in ats:
+                    ats["format_suggestions"] = []
 
             return analysis
 

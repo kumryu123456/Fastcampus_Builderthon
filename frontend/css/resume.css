@@ -218,6 +218,235 @@
     height: 28px;
 }
 
+/* ATS Score Card */
+.ats-score-card {
+    border-left: 4px solid #6366f1;
+    background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+}
+
+.ats-score-card .card-icon {
+    color: #6366f1;
+}
+
+.ats-score-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Overall Score Circle */
+.ats-overall-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.score-circle {
+    position: relative;
+    width: 160px;
+    height: 160px;
+}
+
+.circular-chart {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.circle-bg {
+    fill: none;
+    stroke: #e2e8f0;
+    stroke-width: 3;
+}
+
+.circle {
+    fill: none;
+    stroke: #6366f1;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    transition: stroke-dasharray 1s ease-in-out;
+}
+
+.score-value {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.score-value span:first-child {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #1e293b;
+    display: block;
+}
+
+.score-label {
+    font-size: 1rem;
+    color: #64748b;
+}
+
+.score-description {
+    font-size: 0.95rem;
+    color: #475569;
+    text-align: center;
+    max-width: 200px;
+    margin: 0;
+}
+
+/* Score color classes */
+.score-excellent .circle { stroke: #10b981; }
+.score-good .circle { stroke: #f59e0b; }
+.score-needs-work .circle { stroke: #ef4444; }
+
+/* Sub Scores */
+.ats-sub-scores {
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+}
+
+.sub-score {
+    margin-bottom: 1.25rem;
+}
+
+.sub-score:last-child {
+    margin-bottom: 0;
+}
+
+.sub-score-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.sub-score-label {
+    font-weight: 600;
+    color: #334155;
+}
+
+.sub-score-value {
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.progress-bar {
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.8s ease-out, background 0.3s;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+}
+
+/* ATS Details Sections */
+.ats-details {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.ats-details h4 {
+    font-size: 1rem;
+    color: #334155;
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+}
+
+.ats-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ats-list li {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.issues-list li {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.issue-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.suggestions-list li {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.suggestion-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: #10b981;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* Keyword Tags */
+.keyword-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.keyword-tag {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #dbeafe;
+    color: #1e40af;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid #93c5fd;
+    transition: all 0.2s;
+}
+
+.keyword-tag:hover {
+    background: #3b82f6;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
 /* Experience Summary */
 .experience-summary {
     text-align: center;

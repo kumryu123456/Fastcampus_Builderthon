@@ -203,6 +203,11 @@ function displayResults(analysis) {
     // Show results section
     resultsSection.style.display = 'block';
 
+    // Display ATS Score (new feature)
+    if (analysis.ats_score) {
+        displayATSScore(analysis.ats_score);
+    }
+
     // Populate experience years
     document.getElementById('experience-years').textContent = analysis.experience_years || 0;
 
@@ -234,6 +239,141 @@ function displayResults(analysis) {
 
     // Scroll to results
     resultsSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+/**
+ * Display ATS Score with animated gauges
+ */
+function displayATSScore(atsScore) {
+    const overall = atsScore.overall || 0;
+    const formatScore = atsScore.format_score || 0;
+    const keywordScore = atsScore.keyword_score || 0;
+    const contentScore = atsScore.content_score || 0;
+
+    // Update overall score with animation
+    const overallElement = document.getElementById('ats-overall-score');
+    const scorePath = document.getElementById('ats-score-path');
+    const scoreDescription = document.getElementById('ats-score-description');
+
+    // Animate the score number
+    animateNumber(overallElement, 0, overall, 1000);
+
+    // Animate the circular progress
+    setTimeout(() => {
+        scorePath.style.transition = 'stroke-dasharray 1s ease-in-out';
+        scorePath.setAttribute('stroke-dasharray', `${overall}, 100`);
+    }, 100);
+
+    // Set score color based on value
+    const scoreCircle = document.getElementById('ats-score-circle');
+    if (overall >= 80) {
+        scorePath.style.stroke = '#10b981'; // Green
+        scoreCircle.classList.add('score-excellent');
+        scoreDescription.textContent = 'Excellent! Your resume is highly ATS-compatible.';
+    } else if (overall >= 60) {
+        scorePath.style.stroke = '#f59e0b'; // Yellow
+        scoreCircle.classList.add('score-good');
+        scoreDescription.textContent = 'Good, but there\'s room for improvement.';
+    } else {
+        scorePath.style.stroke = '#ef4444'; // Red
+        scoreCircle.classList.add('score-needs-work');
+        scoreDescription.textContent = 'Needs improvement for better ATS compatibility.';
+    }
+
+    // Update sub-scores with animation
+    animateNumber(document.getElementById('ats-format-score'), 0, formatScore, 800);
+    animateNumber(document.getElementById('ats-keyword-score'), 0, keywordScore, 800);
+    animateNumber(document.getElementById('ats-content-score'), 0, contentScore, 800);
+
+    // Animate progress bars
+    setTimeout(() => {
+        document.getElementById('ats-format-bar').style.width = `${formatScore}%`;
+        document.getElementById('ats-keyword-bar').style.width = `${keywordScore}%`;
+        document.getElementById('ats-content-bar').style.width = `${contentScore}%`;
+
+        // Set bar colors based on scores
+        setBarColor('ats-format-bar', formatScore);
+        setBarColor('ats-keyword-bar', keywordScore);
+        setBarColor('ats-content-bar', contentScore);
+    }, 200);
+
+    // Display issues if any
+    if (atsScore.issues && atsScore.issues.length > 0) {
+        const issuesSection = document.getElementById('ats-issues-section');
+        const issuesList = document.getElementById('ats-issues-list');
+        issuesList.innerHTML = '';
+        atsScore.issues.forEach(issue => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="issue-icon">!</span> ${issue}`;
+            issuesList.appendChild(li);
+        });
+        issuesSection.style.display = 'block';
+    }
+
+    // Display missing keywords
+    if (atsScore.missing_keywords && atsScore.missing_keywords.length > 0) {
+        const keywordsSection = document.getElementById('ats-keywords-section');
+        const keywordsContainer = document.getElementById('ats-missing-keywords');
+        keywordsContainer.innerHTML = '';
+        atsScore.missing_keywords.forEach(keyword => {
+            const tag = document.createElement('span');
+            tag.className = 'keyword-tag';
+            tag.textContent = `+ ${keyword}`;
+            keywordsContainer.appendChild(tag);
+        });
+        keywordsSection.style.display = 'block';
+    }
+
+    // Display format suggestions
+    if (atsScore.format_suggestions && atsScore.format_suggestions.length > 0) {
+        const formatSection = document.getElementById('ats-format-section');
+        const suggestionsList = document.getElementById('ats-format-suggestions');
+        suggestionsList.innerHTML = '';
+        atsScore.format_suggestions.forEach(suggestion => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="suggestion-icon">*</span> ${suggestion}`;
+            suggestionsList.appendChild(li);
+        });
+        formatSection.style.display = 'block';
+    }
+}
+
+/**
+ * Animate number counting up
+ */
+function animateNumber(element, start, end, duration) {
+    const startTime = performance.now();
+    const update = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const current = Math.floor(start + (end - start) * easeOutQuad(progress));
+        element.textContent = current;
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    };
+    requestAnimationFrame(update);
+}
+
+/**
+ * Easing function for smooth animation
+ */
+function easeOutQuad(t) {
+    return t * (2 - t);
+}
+
+/**
+ * Set progress bar color based on score
+ */
+function setBarColor(barId, score) {
+    const bar = document.getElementById(barId);
+    if (score >= 80) {
+        bar.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
+    } else if (score >= 60) {
+        bar.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
+    } else {
+        bar.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+    }
 }
 
 /**

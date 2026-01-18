@@ -93,6 +93,81 @@
         <section id="results-section" class="results-section" style="display: none;">
             <h2>Analysis Results</h2>
 
+            <!-- ATS Score Section -->
+            <div class="result-card ats-score-card">
+                <h3>
+                    <svg class="card-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    ATS Compatibility Score
+                </h3>
+                <div class="ats-score-container">
+                    <!-- Overall Score Gauge -->
+                    <div class="ats-overall-score">
+                        <div class="score-circle" id="ats-score-circle">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" id="ats-score-path" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            </svg>
+                            <div class="score-value">
+                                <span id="ats-overall-score">0</span>
+                                <span class="score-label">/ 100</span>
+                            </div>
+                        </div>
+                        <p class="score-description" id="ats-score-description">Analyzing...</p>
+                    </div>
+
+                    <!-- Sub Scores -->
+                    <div class="ats-sub-scores">
+                        <div class="sub-score">
+                            <div class="sub-score-header">
+                                <span class="sub-score-label">Format</span>
+                                <span class="sub-score-value" id="ats-format-score">0</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill format-fill" id="ats-format-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="sub-score">
+                            <div class="sub-score-header">
+                                <span class="sub-score-label">Keywords</span>
+                                <span class="sub-score-value" id="ats-keyword-score">0</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill keyword-fill" id="ats-keyword-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="sub-score">
+                            <div class="sub-score-header">
+                                <span class="sub-score-label">Content</span>
+                                <span class="sub-score-value" id="ats-content-score">0</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill content-fill" id="ats-content-bar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ATS Issues -->
+                <div class="ats-details" id="ats-issues-section" style="display: none;">
+                    <h4>Issues Found</h4>
+                    <ul id="ats-issues-list" class="ats-list issues-list"></ul>
+                </div>
+
+                <!-- Missing Keywords -->
+                <div class="ats-details" id="ats-keywords-section" style="display: none;">
+                    <h4>Recommended Keywords to Add</h4>
+                    <div id="ats-missing-keywords" class="keyword-tags"></div>
+                </div>
+
+                <!-- Format Suggestions -->
+                <div class="ats-details" id="ats-format-section" style="display: none;">
+                    <h4>Format Improvements</h4>
+                    <ul id="ats-format-suggestions" class="ats-list suggestions-list"></ul>
+                </div>
+            </div>
+
             <!-- Experience Summary -->
             <div class="result-card experience-summary">
                 <h3>Experience Summary</h3>
