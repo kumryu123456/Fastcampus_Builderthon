@@ -414,7 +414,7 @@ class ResumeService:
             file_hash: File hash
 
         Returns:
-            Cached resume if found, None otherwise
+            Cached resume if found (with valid ats_score), None otherwise
         """
         cached = (
             self.db.query(Resume)
@@ -427,6 +427,19 @@ class ResumeService:
         )
 
         if cached:
+            # Check if cached result has ATS score (new feature)
+            # If not, invalidate cache to trigger re-analysis
+            if cached.analysis_result and "ats_score" not in cached.analysis_result:
+                logger.info(
+                    "resume_cache_invalidated_no_ats",
+                    operation="get_cached_resume",
+                    user_id=f"user-{user_id}",
+                    cached_resume_id=cached.id,
+                    file_hash=file_hash[:16],
+                    reason="missing_ats_score",
+                )
+                return None
+
             logger.info(
                 "resume_cache_hit",
                 operation="get_cached_resume",
