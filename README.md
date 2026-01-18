@@ -1,88 +1,102 @@
-# 🎯 PathPilot
+# PathPilot
 
-AI-powered job application automation platform built for the Builderthon Hackathon.
+AI-powered job application assistant built for Builderthon Hackathon 2025.
 
 ## Features
 
-- **📄 Resume Analysis**: Upload your resume and get AI-powered insights on strengths, weaknesses, and recommendations
-- **✍️ Cover Letter Generation**: Generate personalized cover letters in under 60 seconds
-- **🔍 Job Discovery** (P2): Autonomous AI agent finds matching job postings
-- **🎤 Mock Interviews** (P2): Practice with AI interviewer powered by voice synthesis
-- **📊 Application Dashboard** (P3): Track all applications with timeline and statistics
+| Feature | Description | Status |
+|---------|-------------|--------|
+| Resume Analysis | AI-powered resume analysis with strengths, weaknesses, and recommendations | ✅ Complete |
+| Cover Letter | Personalized cover letter generation with tone/length options | ✅ Complete |
+| Job Discovery | AI job recommendations based on resume analysis | ✅ Complete |
+| Mock Interview | AI-generated interview questions with answer evaluation | ✅ Complete |
 
 ## Tech Stack
 
-- **Backend**: FastAPI (Python 3.11+)
-- **AI**: Google Gemini, LangGraph, LangChain
-- **Voice**: ElevenLabs
-- **Database**: PostgreSQL 15+
-- **Cache**: Redis
-- **Frontend**: HTML/CSS/JavaScript (vanilla - hackathon MVP)
-
-> **Note on AI Provider**: This project uses Google Gemini as the primary AI provider. The architecture supports multiple LLM providers through LangChain, making it easy to switch between Gemini, Claude, or other models. Original specifications referenced Claude, but implementation is provider-agnostic.
+- **Backend**: FastAPI, Python 3.12
+- **Database**: PostgreSQL 15 (Docker)
+- **AI**: Google Gemini API
+- **Frontend**: HTML/CSS/JavaScript (Vanilla)
 
 ## Quick Start
 
 ### Prerequisites
 
-- Docker and Docker Compose
-- Google Gemini API key ([get here](https://aistudio.google.com/app/apikey))
-- ElevenLabs API key ([get here](https://elevenlabs.io/))
+- Docker
+- Python 3.12+
+- Google Gemini API key
 
-### Setup
-
-1. **Clone and configure**
+### 1. Clone and Configure
 
 ```bash
 git clone <your-repo>
 cd pathpilot
 
-# Copy environment template
+# Configure environment
 cp .env.example .env
-
-# Edit .env and add your API keys
-nano .env  # or use your preferred editor
+# Edit .env and add GOOGLE_API_KEY
 ```
 
-2. **Start services**
+### 2. Start PostgreSQL
 
 ```bash
-# Start PostgreSQL, Redis, and backend
-docker-compose up -d
-
-# Check logs
-docker-compose logs -f backend
+docker-compose up -d postgres
 ```
 
-3. **Access the application**
-
-- Frontend: Open `frontend/src/index.html` in your browser
-- API Docs: http://localhost:8000/docs
-- Health Check: http://localhost:8000/health
-
-### Development Setup (Without Docker)
+### 3. Start Backend
 
 ```bash
-# Backend setup
 cd backend
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# Set up database
-createdb pathpilot  # or use Docker for PostgreSQL only
+python -m uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+```
 
-# Run migrations (once implemented)
-# alembic upgrade head
+### 4. Start Frontend
 
-# Start backend
-uvicorn src.main:app --reload
+```bash
+cd frontend
+python -m http.server 8080
+```
 
-# Frontend
-# Simply open frontend/src/index.html in your browser
-# For production, use a simple HTTP server:
-cd frontend/src
-python -m http.server 3000
+### 5. Access
+
+- **Frontend**: http://localhost:8080
+- **API Docs**: http://localhost:8000/docs
+- **Health Check**: http://localhost:8000/health
+
+## API Endpoints
+
+### Resume Analysis
+```
+POST /api/v1/resume/upload          Upload and analyze resume (PDF/DOCX)
+GET  /api/v1/resume/{id}/analysis   Get analysis results
+```
+
+### Cover Letter
+```
+POST /api/v1/cover-letter/generate  Generate cover letter
+GET  /api/v1/cover-letter/{id}      Get cover letter
+PUT  /api/v1/cover-letter/{id}      Update/regenerate
+GET  /api/v1/cover-letter/          List all cover letters
+```
+
+### Job Discovery
+```
+POST /api/v1/jobs/recommend         Get job recommendations
+POST /api/v1/jobs/match             Analyze job-resume match
+POST /api/v1/jobs/                  Save a job
+GET  /api/v1/jobs/{id}              Get job details
+```
+
+### Mock Interview
+```
+POST /api/v1/interview/generate-questions     Generate interview questions
+POST /api/v1/interview/{id}/evaluate-answer   Evaluate answer
+GET  /api/v1/interview/{id}                   Get interview details
+GET  /api/v1/interview/                       List interview history
 ```
 
 ## Project Structure
@@ -91,183 +105,58 @@ python -m http.server 3000
 pathpilot/
 ├── backend/
 │   ├── src/
-│   │   ├── main.py              # FastAPI app entry point
-│   │   ├── config.py            # Environment configuration
-│   │   ├── database.py          # SQLAlchemy setup
-│   │   ├── models/              # Database models
-│   │   ├── services/            # Business logic
-│   │   ├── api/                 # External API clients
-│   │   ├── routers/             # API endpoints
-│   │   └── utils/               # Utilities (logging, privacy)
-│   ├── tests/                   # Test files
-│   ├── requirements.txt
-│   └── Dockerfile
+│   │   ├── main.py           # FastAPI app
+│   │   ├── config.py         # Configuration
+│   │   ├── database.py       # SQLAlchemy setup
+│   │   ├── models/           # DB models
+│   │   ├── services/         # Business logic + Gemini
+│   │   ├── routers/          # API endpoints
+│   │   └── utils/            # Logging, privacy
+│   └── requirements.txt
 ├── frontend/
-│   └── src/
-│       ├── index.html           # Dashboard
-│       ├── resume.html          # Resume upload
-│       ├── cover-letter.html    # Cover letter generator
-│       ├── jobs.html            # Job discovery
-│       ├── interview.html       # Mock interview
-│       ├── css/
-│       └── js/
-├── specs/                       # Specification documents
+│   ├── index.html            # Dashboard
+│   ├── resume.html           # Resume upload
+│   ├── cover-letter.html     # Cover letter generator
+│   ├── jobs.html             # Job discovery
+│   ├── interview.html        # Mock interview
+│   ├── css/                  # Styles
+│   └── js/                   # Client logic
 ├── docker-compose.yml
 ├── .env.example
 └── README.md
 ```
 
-## Constitution Principles
+## Performance
 
-This project follows 5 core principles:
+| Feature | Target | Actual |
+|---------|--------|--------|
+| Resume Analysis | <60s | ~13s |
+| Cover Letter | <60s | ~12s |
+| Job Recommendations | <30s | ~10s |
+| Interview Questions | <15s | ~12s |
+| Answer Evaluation | <10s | ~14s |
 
-1. **Agentic AI First**: LangGraph for autonomous workflows
-2. **External API Resilience**: Retry logic with exponential backoff
-3. **User Data Privacy**: No credential leaks, secure storage
-4. **Hackathon MVP First**: 2-day focus, core features only
-5. **Code Quality**: 80% test coverage, structured logging
+## Development Phases
 
-See `.specify/memory/constitution.md` for details.
+- [x] **Phase 1**: Project setup
+- [x] **Phase 2**: Infrastructure (Docker, PostgreSQL, logging)
+- [x] **Phase 3**: Resume Analysis
+- [x] **Phase 4**: Cover Letter Generation
+- [x] **Phase 5**: Job Discovery
+- [x] **Phase 6**: Mock Interview
 
-## Development Workflow
+## Environment Variables
 
-### Phase 1: MVP (P1 Features) - Day 1
+```env
+# Required
+GOOGLE_API_KEY=your-gemini-api-key
 
-- [x] Setup (T001-T006)
-- [ ] Foundational (T007-T016): Database, retry logic, logging
-- [ ] User Story 1 (T017-T033): Resume upload & analysis
-- [ ] User Story 2 (T034-T048): Cover letter generation
-
-### Phase 2: Enhanced Features (P2) - Day 2 (if time permits)
-
-- [ ] User Story 3 (T049-T063): Job discovery agent
-- [ ] User Story 4 (T064-T080): Mock interview
-
-### Phase 3: Polish (P3)
-
-- [ ] User Story 5 (T081-T086): Dashboard stats
-- [ ] Testing & security audit (T087-T100)
-
-## Testing
-
-```bash
-# Run all tests
-cd backend
-pytest
-
-# Run with coverage
-pytest --cov=src --cov-report=html
-
-# Run specific test file
-pytest tests/unit/test_resume_service.py
-
-# View coverage report
-open htmlcov/index.html
+# Optional
+DATABASE_URL=postgresql://pathpilot:pathpilot@localhost:5432/pathpilot
+APP_ENV=development
+LOG_LEVEL=INFO
 ```
-
-## API Documentation
-
-Once the backend is running, visit:
-
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-
-## Key Endpoints (MVP)
-
-```
-POST /resume/upload           # Upload resume for analysis
-GET  /resume/{id}/analysis    # Get resume analysis results
-POST /cover-letter/generate   # Generate cover letter
-GET  /cover-letter/{id}       # Get cover letter
-PUT  /cover-letter/{id}/edit  # Update cover letter
-GET  /health                  # Health check
-```
-
-## Security
-
-- **API Keys**: Stored in environment variables only (never in code)
-- **PII Scrubbing**: SSN, phone, email removed from logs
-- **Credential Scanning**: Pre-commit hooks with `detect-secrets`
-- **File Upload**: UUID filenames, validated types (PDF/DOCX only)
-
-## Performance Targets
-
-- Cover letter generation: **<60 seconds** (p95)
-- Mock interview response: **<2 seconds** (p90)
-- Concurrent users: **100 users** with <5% error rate
-- Uptime: **95%** during demo
-
-## Troubleshooting
-
-### Docker issues
-
-```bash
-# Reset everything
-docker-compose down -v
-docker-compose up --build
-
-# Check container logs
-docker-compose logs backend
-docker-compose logs postgres
-```
-
-### Database connection errors
-
-```bash
-# Check PostgreSQL is running
-docker-compose ps postgres
-
-# Test connection
-docker-compose exec postgres psql -U pathpilot -d pathpilot
-```
-
-### API key issues
-
-```bash
-# Verify .env file exists and has keys
-cat .env | grep API_KEY
-
-# Restart backend to reload environment
-docker-compose restart backend
-```
-
-## Demo Script
-
-For hackathon presentation, follow this narrative:
-
-1. **Opening**: "Meet Sarah, a software engineer looking for her next role..."
-2. **Resume Upload**: Upload resume → Show AI analysis (strengths/weaknesses)
-3. **Cover Letter**: Paste job description → Generate personalized letter in <60s
-4. **Mock Interview** (if P2 complete): Start interview → AI asks questions with voice
-5. **Dashboard**: Show application tracking and statistics
-
-## Contributing
-
-This is a hackathon project. For post-hackathon contributions:
-
-1. Follow test-first development (write tests before code)
-2. Ensure 80% test coverage
-3. Add structured logging to new features
-4. Run security scan: `detect-secrets scan`
-5. Check constitution compliance in `specs/001-pathpilot-mvp/plan.md`
 
 ## License
 
-MIT License - Built for Builderthon Hackathon 2025
-
-## Team
-
-- Your team members here
-
-## Acknowledgments
-
-- Google Gemini for AI capabilities
-- ElevenLabs for voice synthesis
-- LangGraph for agentic workflows
-- Builderthon Hackathon organizers
-
----
-
-**Status**: Phase 1 Setup Complete ✅ | Ready for Foundational Development
-
-**Next**: Implement T007-T016 (Database, retry logic, logging, auth)
+MIT License - Builderthon Hackathon 2025
