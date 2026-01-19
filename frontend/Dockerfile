@@ -3,11 +3,8 @@ FROM nginx:alpine
 # Copy static files to nginx
 COPY . /usr/share/nginx/html
 
-# Copy nginx config template
-COPY nginx.conf /etc/nginx/templates/default.conf.template
-
-# Set default port
-ENV PORT=80
+# Copy nginx config (overwrite default)
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port
 EXPOSE 80
