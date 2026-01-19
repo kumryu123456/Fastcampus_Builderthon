@@ -86,12 +86,11 @@ app = FastAPI(
 
 
 # CORS Middleware (Constitution III: Configured from environment)
-# Development: allow all origins for easier testing
-cors_origins = ["*"] if settings.is_development else settings.cors_origins
+# Allow all origins for hackathon demo
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_origins,
-    allow_credentials=False,  # Must be False when using "*"
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
