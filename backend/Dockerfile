@@ -23,12 +23,11 @@ COPY . .
 # Create uploads directory
 RUN mkdir -p /app/uploads
 
-# Expose port
+# Expose port (Railway uses PORT env variable)
 EXPOSE 8000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+# Set default port
+ENV PORT=8000
 
-# Run the application
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run the application with shell to expand $PORT
+CMD uvicorn src.main:app --host 0.0.0.0 --port $PORT
