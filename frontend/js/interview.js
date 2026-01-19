@@ -4,10 +4,8 @@
  * Constitution Compliance:
  * - T072-T076: Frontend JavaScript for mock interview feature
  * - User-friendly interview flow with AI evaluation
+ * - API_BASE_URL is defined in config.js
  */
-
-// API Configuration
-const API_BASE_URL = 'http://localhost:8000/api/v1';
 
 // State
 let currentInterview = null;

@@ -4,10 +4,8 @@
  * Constitution Compliance:
  * - T045-T048: Frontend JavaScript for cover letter feature
  * - User-friendly form with AI generation
+ * - API_BASE_URL is defined in config.js
  */
-
-// API Configuration
-const API_BASE_URL = 'http://172.23.78.180:8000/api/v1';
 
 // DOM Elements
 const generationSection = document.getElementById('generation-section');

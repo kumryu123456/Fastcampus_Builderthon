@@ -5,11 +5,8 @@
  * - T032: Frontend JavaScript with Fetch API
  * - User-friendly drag-and-drop upload
  * - Real-time analysis display
+ * - API_BASE_URL is defined in config.js
  */
-
-// API Configuration
-// WSL2 환경: localhost가 Windows를 가리키므로 WSL2 IP 사용
-const API_BASE_URL = 'http://172.23.78.180:8000/api/v1';
 
 // DOM Elements
 const dropzone = document.getElementById('dropzone');

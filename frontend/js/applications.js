@@ -1,8 +1,7 @@
 /**
  * Applications Tracker Logic - PathPilot
+ * API_BASE_URL is defined in config.js
  */
-
-const API_BASE_URL = 'http://localhost:8000/api/v1';
 
 // DOM Elements
 const applicationsTable = document.getElementById('applications-tbody');

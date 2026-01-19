@@ -1,9 +1,8 @@
 /**
  * Dashboard Logic - PathPilot
  * Loads stats and displays user progress
+ * API_BASE_URL is defined in config.js
  */
-
-const API_BASE_URL = 'http://localhost:8000/api/v1';
 
 // Load stats on page load
 document.addEventListener('DOMContentLoaded', () => {

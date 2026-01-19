@@ -1,10 +1,8 @@
 /**
  * Job Discovery UI Logic - PathPilot
  * T059-T063: Frontend JavaScript for job discovery
+ * API_BASE_URL is defined in config.js
  */
-
-// API Configuration
-const API_BASE_URL = 'http://172.23.78.180:8000/api/v1';
 
 // Tab Elements
 const tabBtns = document.querySelectorAll('.tab-btn');
