@@ -1,12 +1,15 @@
-FROM nginx:alpine
+FROM python:3.11-alpine
 
-# Copy static files to nginx
-COPY . /usr/share/nginx/html
+WORKDIR /app
 
-# Copy nginx config (overwrite default)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy static files
+COPY . .
+
+# Set default port
+ENV PORT=8080
 
 # Expose port
-EXPOSE 80
+EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+# Run simple Python HTTP server
+CMD python -m http.server $PORT
