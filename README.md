@@ -47,14 +47,14 @@
 
 ```
 [Frontend: Vanilla HTML/CSS/JS]
-         |
+          |
 [FastAPI Backend (Python 3.12)]
-  ├── /api/v1/resume       이력서 업로드 & AI 분석
-  ├── /api/v1/cover-letter 자기소개서 AI 생성
-  ├── /api/v1/jobs         채용공고 AI 추천
-  └── /api/v1/interview    모의 면접 질문/평가
-         |
-[PostgreSQL 15 (Docker)]  [Google Gemini API]
+ ├── /api/v1/resume        이력서 업로드 & AI 분석
+ ├── /api/v1/cover-letter  자기소개서 AI 생성
+ ├── /api/v1/jobs          채용공고 AI 추천
+ └── /api/v1/interview     모의 면접 질문/평가
+          |
+[PostgreSQL 15 (Docker)]   [Google Gemini API]
 ```
 
 ---
@@ -80,6 +80,16 @@
 | AI | Google Gemini API |
 | Frontend | HTML/CSS/JavaScript (Vanilla) |
 | DevOps | Docker, docker-compose |
+
+---
+
+## 기술 선택 이유
+
+**FastAPI** — 빌더톤 기간이 짧아 빠른 개발이 필수였습니다. Django/Flask 대비 비동기 처리가 기본이고 Pydantic 덕분에 요청/응답 스키마를 별도 코드 없이 자동 검증할 수 있어서 선택했습니다. Swagger 문서 자동 생성도 프론트엔드 팀원과 협업할 때 유용했습니다.
+
+**Google Gemini API** — OpenAI GPT와 비교했을 때 당시 무료 할당량이 더 넉넉했습니다. 빌더톤처럼 비용 제약이 있는 상황에서 Gemini Flash 모델의 속도와 무료 티어 한도가 적합했습니다. 다만 GPT-4 계열 대비 한국어 자소서 품질이 낮은 건 단점이었습니다.
+
+**SQLAlchemy ORM + PostgreSQL** — 이력서, 자소서, 면접 히스토리 간 관계가 복잡해서 ORM 없이 raw SQL로 관리하면 실수가 나기 쉽습니다. SQLAlchemy의 관계 매핑으로 엔티티 간 연관을 명확히 하고, Docker로 환경을 통일해 팀원들이 로컬에서 동일한 DB 환경을 쓸 수 있도록 했습니다.
 
 ---
 
@@ -115,17 +125,17 @@ API 문서(Swagger): http://localhost:8000/docs
 Fastcampus_Builderthon/
 ├── backend/
 │   └── src/
-│       ├── main.py       FastAPI 앱 진입점
-│       ├── models/       SQLAlchemy DB 모델
-│       ├── services/     비즈니스 로직 + Gemini AI
-│       ├── routers/      API 라우터 (4개 도메인)
-│       └── utils/        로깅, 개인정보 처리
+│       ├── main.py      FastAPI 앱 진입점
+│       ├── models/      SQLAlchemy DB 모델
+│       ├── services/    비즈니스 로직 + Gemini AI
+│       ├── routers/     API 라우터 (4개 도메인)
+│       └── utils/       로깅, 개인정보 처리
 ├── frontend/
-│   ├── index.html        대시보드
-│   ├── resume.html       이력서 업로드
+│   ├── index.html       대시보드
+│   ├── resume.html      이력서 업로드
 │   ├── cover-letter.html 자소서 생성
-│   ├── jobs.html         채용 추천
-│   └── interview.html    모의 면접
+│   ├── jobs.html        채용 추천
+│   └── interview.html   모의 면접
 ├── docker-compose.yml
 └── .env.example
 ```
