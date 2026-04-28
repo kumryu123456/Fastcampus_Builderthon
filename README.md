@@ -1,6 +1,6 @@
 # PathPilot — AI 취업 지원 어시스턴트
 
-패스트캠퍼스 빌더톤(Builderthon) 2025 참가작
+패스트캠퍼스 빌더톤(Builderthon) 2026 참가작
 이력서 분석 · 자기소개서 생성 · 채용 추천 · 모의 면접 All-in-One
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
@@ -17,7 +17,7 @@
 
 ---
 
-## 응답시간 측정 결과
+## 응답시간 측정 결과h
 
 | 기능 | 목표 | 실측 | 결과 |
 |------|------|------|------|
